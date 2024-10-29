@@ -21,9 +21,9 @@ const { Sequelize } = require('sequelize');
 // LTDD:....
 const config = {
   database: {
-    name: 'batdongsandanang',
-    username: 'taquocy',
-    password: 'Y649394$y',
+    name: 'laptrinhdidong',
+    username: 'root',
+    password: 'root',
     host: 'db4free.net',
     dialect: 'mysql',
     logging: console.log
