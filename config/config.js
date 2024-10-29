@@ -22,14 +22,14 @@ const { Sequelize } = require('sequelize');
 const config = {
   database: {
     name: 'laptrinhdidong',
-    username: 'root',
-    password: 'root',
-    host: 'db4free.net',
+    username: 'ducvu',
+    password: 'ducvu',
+    host: '42.114.207.37',
     dialect: 'mysql',
     logging: console.log
   },
   server: {
-    port: 5000
+    port: 3306
   }
 };
 
