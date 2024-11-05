@@ -3,28 +3,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { Sequelize } = require('sequelize');
 
-// Cấu hình chung cho cơ sở dữ liệu và server
-// const config = {
-//   database: {
-//     name: 'fellow4U',
-//     username: 'root',
-//     password: 'Y649394$y',
-//     host: 'localhost',
-//     dialect: 'mysql',
-//     logging: console.log
-//   },
-//   server: {
-//     port: 5000
-//   }
-// };
-// TODO : Connect to db4free.net ST22B
-// LTDD:....
 const config = {
   database: {
-    name: 'laptrinhdidong',
+    name: 'laptringdidong',
     username: 'ducvu',
     password: 'ducvu',
-    host: '42.114.207.37',
+    host: '127.0.0.1',
     dialect: 'mysql',
     logging: console.log
   },

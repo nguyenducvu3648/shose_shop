@@ -14,7 +14,7 @@ app.use('/api', tourRoutes);
 sequelize.sync()
   .then(() => {
     app.listen(config.server.port,'0.0.0.0', () => {
-      console.log(`[Y.Ta] - Server đang chạy trên cổng ${config.server.port}`);
+      console.log(` Server đang chạy trên cổng ${config.server.port}`);
     });
   })
   .catch(err => {
