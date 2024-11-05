@@ -1,30 +1,104 @@
-const Tour = require('../models/tourModel');
+const Tour = require('../models/Tour');
+const { validationResult } = require('express-validator');
 
-// Lấy tất cả các tour
-exports.getAllTours = async (req, res) => {
-  try {
-    const tours = await Tour.findAll();  // Lấy tất cả dữ liệu từ bảng Tour
-    res.json(tours);
-  } catch (err) {
-    console.error('Lỗi khi lấy dữ liệu:', err);
-    res.status(500).json({ error: 'Lỗi khi lấy dữ liệu' });
-  }
+exports.createTour = async (req, res) => {
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const tour = await Tour.create(req.body);
+        res.status(201).json({
+            success: true,
+            data: tour
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
 };
 
-// Thêm tour mới
-exports.createTour = async (req, res) => {
-  const { cityName, days, price, avatar } = req.body;
+exports.getAllTours = async (req, res) => {
+    try {
+        const tours = await Tour.find();
+        res.status(200).json({
+            success: true,
+            count: tours.length,
+            data: tours
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
 
-  try {
-    const newTour = await Tour.create({
-      cityName,
-      days,
-      price,
-      avatar
-    });
-    res.status(201).json(newTour);  // Trả về dữ liệu tour vừa tạo
-  } catch (err) {
-    console.error('Lỗi khi thêm dữ liệu:', err);
-    res.status(500).json({ error: 'Lỗi khi thêm dữ liệu' });
-  }
+exports.getTourById = async (req, res) => {
+    try {
+        const tour = await Tour.findById(req.params.id);
+        if (!tour) {
+            return res.status(404).json({
+                success: false,
+                message: 'Tour not found'
+            });
+        }
+        res.status(200).json({
+            success: true,
+            data: tour
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+exports.updateTour = async (req, res) => {
+    try {
+        const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+        if (!tour) {
+            return res.status(404).json({
+                success: false,
+                message: 'Tour not found'
+            });
+        }
+        res.status(200).json({
+            success: true,
+            data: tour
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+exports.deleteTour = async (req, res) => {
+    try {
+        const tour = await Tour.findByIdAndDelete(req.params.id);
+        if (!tour) {
+            return res.status(404).json({
+                success: false,
+                message: 'Tour not found'
+            });
+        }
+        res.status(204).json({
+            success: true,
+            data: null
+        });
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
 };

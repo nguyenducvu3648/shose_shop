@@ -1,22 +1,44 @@
-const { app, sequelize, config } = require('./config/config');  // Đảm bảo đường dẫn là chính xác
-const tourRoutes = require('./routes/tourRoutes');
 const express = require('express');
-const path  = require('path');  
-
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
 
+const app = express();
+
+// Middleware
 app.use(cors());
-app.use('/resource/images', express.static(path.join(__dirname,"resource", 'images')));
-// Sử dụng các route
-app.use('/api', tourRoutes);
+app.use(bodyParser.json());
 
-// Đồng bộ với cơ sở dữ liệu và khởi động server
-sequelize.sync()
-  .then(() => {
-    app.listen(config.server.port,'0.0.0.0', () => {
-      console.log(` Server đang chạy trên cổng ${config.server.port}`);
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/tourdb', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch((err) => console.error('MongoDB connection error:', err));
+
+// Routes
+const tourRoutes = require('./routes/tourRoutes');
+app.use('/api/tours', tourRoutes);
+
+// Basic route for testing
+app.get('/', (req, res) => {
+    res.send('Tour Management API is running');
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        success: false,
+        message: 'Something went wrong!'
     });
-  })
-  .catch(err => {
-    console.error('Lỗi khi đồng bộ với cơ sở dữ liệu:', err);
-  });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+module.exports = app;
