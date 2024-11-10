@@ -1,6 +1,7 @@
+
 const express = require('express');
 const router = express.Router();
-const { 
+const {
     createTour,
     getAllTours,
     getTourById,
@@ -9,11 +10,11 @@ const {
 } = require('../controllers/tourController');
 const { tourValidation } = require('../middleware/validators');
 
-router.post('/', tourValidation, createTour);
-router.get('/', getAllTours);
-router.get('/:id', getTourById);
-router.patch('/:id', tourValidation, updateTour);
-router.delete('/:id', deleteTour);
+
+router.post('/', tourValidation,createTour);  
+router.get('/getAll', getAllTours);           
+router.get('/:id', getTourById);              
+router.patch('/:id', tourValidation, updateTour);  
+router.delete('/:id', deleteTour);          
 
 module.exports = router;
-

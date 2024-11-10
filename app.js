@@ -11,21 +11,14 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/tourdb', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+const mongoURI = 'mongodb://ducvu:ducvu@localhost:27017/tour?authSource=laptrinhdidong';
+mongoose.connect(mongoURI)
 .then(() => console.log('Connected to MongoDB'))
 .catch((err) => console.error('MongoDB connection error:', err));
 
 // Routes
 const tourRoutes = require('./routes/tourRoutes');
 app.use('/api/tours', tourRoutes);
-
-// Basic route for testing
-app.get('/', (req, res) => {
-    res.send('Tour Management API is running');
-});
 
 // Error handling middleware
 app.use((err, req, res, next) => {

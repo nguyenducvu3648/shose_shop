@@ -1,3 +1,4 @@
+// models/Tour.js
 const mongoose = require('mongoose');
 
 const tourSchema = new mongoose.Schema({
@@ -28,7 +29,8 @@ const tourSchema = new mongoose.Schema({
         trim: true
     },
     startDates: [{
-        type: Date
+        type: Date,
+        default: Date.now
     }],
     createdAt: {
         type: Date,
@@ -36,4 +38,7 @@ const tourSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Tour', tourSchema);
+// Export đúng mô hình Tour
+const Tour = mongoose.model('Tour', tourSchema);
+
+module.exports = Tour;

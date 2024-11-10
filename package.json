@@ -16,6 +16,6 @@
     "mysql2": "^3.2.0",
     "sequelize": "^6.31.0"
   },
-  "author": "Your Name",
+  "author": "ducvu",
   "license": "ISC"
 }
