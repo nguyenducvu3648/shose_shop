@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-const mongoURI = 'mongodb://ducvu:ducvu@localhost:27017/tour?authSource=laptrinhdidong';
+const mongoURI = 'mongodb://mongodb:27017/laptrinhdidong';
 mongoose.connect(mongoURI)
 .then(() => console.log('Connected to MongoDB'))
 .catch((err) => console.error('MongoDB connection error:', err));
