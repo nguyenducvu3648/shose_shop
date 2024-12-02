@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const shoeRoutes = require('./routes/shoeRoutes');
+const authRoutes = require('./routes/authRoutes'); // Import route cho xác thực
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -12,8 +13,9 @@ app.use(express.json());
 // Kết nối đến MongoDB
 connectDB();
 
-// Sử dụng routes
+// Sử dụng các routes
 app.use('/api/shoes', shoeRoutes);
+app.use('/api/auth', authRoutes); // Sử dụng route cho xác thực
 
 // Khởi động server
 const PORT = process.env.PORT || 3000;
