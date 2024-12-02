@@ -1,36 +1,21 @@
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const shoeRoutes = require('./routes/shoeRoutes');
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./routes/authRoutes'); // Import route cho xác thực
+const dotenv = require('dotenv');
 
 dotenv.config();
-
 const app = express();
-
-// Middleware CORS
-app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:3000', 'https://your-frontend-domain.com'];
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-
-// Middleware để phân tích body của request
+app.use(cors());
 app.use(express.json());
 
-// Kết nối MongoDB
+// Kết nối đến MongoDB
 connectDB();
 
-// Các routes
+// Sử dụng các routes
 app.use('/api/shoes', shoeRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes); // Sử dụng route cho xác thực
 
 // Khởi động server
 const PORT = process.env.PORT || 3000;
