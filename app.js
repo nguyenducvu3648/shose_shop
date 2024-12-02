@@ -1,37 +1,22 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const cors = require('cors');
-require('dotenv').config();
+const connectDB = require('./config/db');
+const shoeRoutes = require('./routes/shoeRoutes');
+const dotenv = require('dotenv');
 
+dotenv.config();
 const app = express();
-
-// Middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
-// Connect to MongoDB
-const mongoURI = 'mongodb+srv://vunguyen3648:httd3648@cluster0.uvwbt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-mongoose.connect(mongoURI)
-.then(() => console.log('Connected to MongoDB'))
-.catch((err) => console.error('MongoDB connection error:', err));
+// Kết nối đến MongoDB
+connectDB();
 
-// Routes
-const tourRoutes = require('./routes/tourRoutes');
-app.use('/api/tours', tourRoutes);
+// Sử dụng routes
+app.use('/api/shoes', shoeRoutes);
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({
-        success: false,
-        message: 'Something went wrong!'
-    });
-});
-
+// Khởi động server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
-
-module.exports = app;
