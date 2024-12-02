@@ -1,5 +1,5 @@
 {
-  "name": "fellow4U_project",
+  "name": "server-node",
   "version": "1.0.0",
   "description": "Node.js project to manage tours with MySQL",
   "main": "app.js",
