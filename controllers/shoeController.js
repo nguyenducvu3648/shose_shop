@@ -1,3 +1,4 @@
+// controllers/shoeController.js
 const ShoeModel = require('../models/shoeModel');
 
 // Thêm mới
@@ -26,6 +27,23 @@ exports.getShoes = async (req, res) => {
   } catch (error) {
     console.error('Lỗi khi truy xuất dữ liệu giày:', error);
     res.status(500).json({ message: 'Đã xảy ra lỗi khi lấy dữ liệu giày: ' + error.message });
+  }
+};
+
+// Lấy giày theo model
+exports.getShoeByModel = async (req, res) => {
+  try {
+    const { model } = req.params;  // Lấy model từ URL params
+    const shoe = await ShoeModel.findOne({ model });  // Tìm giày theo model
+
+    if (!shoe) {
+      return res.status(404).json({ message: 'Giày không tồn tại với model: ' + model });
+    }
+
+    res.json(shoe);  // Trả về giày theo model
+  } catch (error) {
+    console.error('Lỗi khi lấy giày theo model:', error);
+    res.status(500).json({ message: 'Đã xảy ra lỗi khi lấy giày theo model: ' + error.message });
   }
 };
 

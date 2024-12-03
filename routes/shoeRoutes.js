@@ -9,6 +9,9 @@ router.post('/', shoeController.addShoe);
 // Lấy danh sách giày
 router.get('/', shoeController.getShoes);
 
+// Lấy giày theo model
+router.get('/:model', shoeController.getShoeByModel); // Route mới
+
 // Cập nhật giày theo model
 router.put('/:model', shoeController.updateShoe);
 
