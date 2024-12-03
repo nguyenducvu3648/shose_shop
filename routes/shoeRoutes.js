@@ -1,18 +1,18 @@
+// routes/shoeRoutes.js
 const express = require('express');
 const router = express.Router();
 const shoeController = require('../controllers/shoeController');
-const { validateShoe } = require('../middleware/validationMiddleware');
 
 // Thêm mới
-router.post('/', validateShoe, shoeController.addShoe);
+router.post('/', shoeController.addShoe);
 
-// Lấy danh sách
+// Lấy danh sách giày
 router.get('/', shoeController.getShoes);
 
-// Cập nhật
-router.put('/:model', validateShoe, shoeController.updateShoe);
+// Cập nhật giày theo model
+router.put('/:model', shoeController.updateShoe);
 
-// Xóa
+// Xóa giày theo model
 router.delete('/:model', shoeController.deleteShoe);
 
 module.exports = router;

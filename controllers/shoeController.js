@@ -33,13 +33,13 @@ exports.getShoes = async (req, res) => {
 exports.updateShoe = async (req, res) => {
   try {
     const { model } = req.params;  // Lấy model từ URL params
-    const updatedShoe = await ShoeModel.findOneAndUpdate({ model }, req.body, { new: true });  // Cập nhật giày theo model và trả về bản cập nhật mới
+    const updatedShoe = await ShoeModel.findOneAndUpdate({ model }, req.body, { new: true });  // Cập nhật giày theo model
 
     if (!updatedShoe) {
-      return res.status(404).send('Shoe not found');  // Trả về lỗi nếu không tìm thấy giày
+      return res.status(404).json({ message: 'Shoe not found' });  // Trả về lỗi nếu không tìm thấy giày
     }
-    
-    res.json(updatedShoe);  // Trả về giày đã được cập nhật
+
+    res.json(updatedShoe);  // Trả về giày đã cập nhật
   } catch (error) {
     console.error('Lỗi khi cập nhật giày:', error);
     res.status(500).json({ message: 'Đã xảy ra lỗi khi cập nhật giày: ' + error.message });
