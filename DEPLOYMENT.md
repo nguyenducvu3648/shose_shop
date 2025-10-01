@@ -1,21 +1,21 @@
-# Hướng dẫn Deploy CI/CD với GitHub Actions
+# Hướng dẫn Deploy Full-Stack App lên Vercel
 
-Hướng dẫn deploy ứng dụng Shoe Store Management lên Vercel (Frontend) và Railway (Backend) với CI/CD pipeline.
+Hướng dẫn deploy ứng dụng Shoe Store Management lên Vercel với CI/CD pipeline.
 
 ## 🚀 Kiến trúc Deployment
 
 ```
 GitHub Repository
-├── Frontend (React) → Vercel
-├── Backend (Node.js) → Railway
-└── Database → MongoDB Atlas
+├── Full-Stack App → Vercel
+│   ├── Frontend (React)
+│   ├── Backend (Node.js API)
+│   └── Database → MongoDB Atlas
 ```
 
 ## 📋 Yêu cầu
 
 - GitHub Repository
 - Vercel Account
-- Railway Account
 - MongoDB Atlas Cluster
 
 ## 🔧 Bước 1: Chuẩn bị Repository
@@ -31,8 +31,8 @@ git push origin main
 ```
 ├── .github/workflows/deploy.yml
 ├── vercel.json
-├── railway.json
 ├── env.production
+├── app.js (Backend + Frontend)
 ├── frontend/
 │   ├── vercel.json
 │   ├── env.production
@@ -40,60 +40,30 @@ git push origin main
 └── package.json
 ```
 
-## 🎯 Bước 2: Deploy Backend lên Railway
+## 🎯 Bước 2: Deploy Full-Stack App lên Vercel
 
-### 2.1 Tạo Railway Account
-1. Truy cập [Railway.app](https://railway.app)
-2. Đăng ký/Đăng nhập với GitHub
-3. Tạo project mới
-
-### 2.2 Deploy Backend
-1. **Connect GitHub Repository:**
-   - Click "Deploy from GitHub repo"
-   - Chọn repository của bạn
-   - Chọn branch `main`
-
-2. **Cấu hình Service:**
-   - Railway sẽ tự động detect Node.js
-   - Root Directory: `/` (root của repo)
-   - Build Command: `npm install`
-   - Start Command: `npm start`
-
-3. **Environment Variables:**
-   ```env
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ecommerce?retryWrites=true&w=majority
-   PORT=5000
-   NODE_ENV=production
-   FRONTEND_URL=https://your-frontend-domain.vercel.app
-   ```
-
-4. **Lấy Railway Token:**
-   - Vào Settings → Tokens
-   - Tạo token mới
-   - Copy token để dùng trong GitHub Secrets
-
-## 🌐 Bước 3: Deploy Frontend lên Vercel
-
-### 3.1 Tạo Vercel Account
+### 2.1 Tạo Vercel Account
 1. Truy cập [Vercel.com](https://vercel.com)
 2. Đăng ký/Đăng nhập với GitHub
 3. Import project từ GitHub
 
-### 3.2 Cấu hình Vercel
+### 2.2 Cấu hình Vercel
 1. **Import Project:**
    - Chọn repository
-   - Framework Preset: `Create React App`
-   - Root Directory: `frontend`
+   - Framework Preset: `Other`
+   - Root Directory: `/` (root của repo)
 
 2. **Environment Variables:**
    ```env
-   REACT_APP_API_URL=https://your-backend-domain.railway.app/api
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ecommerce?retryWrites=true&w=majority
+   NODE_ENV=production
+   REACT_APP_API_URL=/api
    ```
 
 3. **Build Settings:**
-   - Build Command: `npm run build`
-   - Output Directory: `build`
-   - Install Command: `npm install`
+   - Build Command: `cd frontend && npm run build`
+   - Output Directory: `frontend/build`
+   - Install Command: `npm install && cd frontend && npm install`
 
 4. **Lấy Vercel Tokens:**
    - Vào Settings → Tokens
@@ -101,42 +71,37 @@ git push origin main
    - Vào Project Settings → General
    - Copy Project ID và Org ID
 
-## 🔐 Bước 4: Cấu hình GitHub Secrets
+## 🔐 Bước 3: Cấu hình GitHub Secrets
 
-### 4.1 Vào Repository Settings
+### 3.1 Vào Repository Settings
 1. GitHub Repository → Settings → Secrets and variables → Actions
 
-### 4.2 Thêm Secrets
+### 3.2 Thêm Secrets
 ```env
-# Railway
-RAILWAY_TOKEN=your_railway_token
-RAILWAY_SERVICE_NAME=your_service_name
-
 # Vercel
 VERCEL_TOKEN=your_vercel_token
 VERCEL_ORG_ID=your_org_id
 VERCEL_PROJECT_ID=your_project_id
 
-# API URL
-REACT_APP_API_URL=https://your-backend-domain.railway.app/api
+# Database
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ecommerce?retryWrites=true&w=majority
 ```
 
-## ⚙️ Bước 5: Cấu hình CI/CD Pipeline
+## ⚙️ Bước 4: Cấu hình CI/CD Pipeline
 
-### 5.1 GitHub Actions Workflow
+### 4.1 GitHub Actions Workflow
 File `.github/workflows/deploy.yml` đã được tạo với:
 - **Test Job**: Chạy tests cho cả frontend và backend
 - **Lint Job**: Kiểm tra code quality
-- **Deploy Backend**: Deploy lên Railway
-- **Deploy Frontend**: Deploy lên Vercel
+- **Deploy Full-Stack**: Deploy lên Vercel
 
-### 5.2 Trigger Events
+### 4.2 Trigger Events
 - **Push to main**: Tự động deploy
 - **Pull Request**: Chạy tests và linting
 
-## 🚀 Bước 6: Test Deployment
+## 🚀 Bước 5: Test Deployment
 
-### 6.1 Trigger Deployment
+### 5.1 Trigger Deployment
 ```bash
 # Tạo thay đổi nhỏ
 echo "# Test deployment" >> README.md
@@ -145,19 +110,18 @@ git commit -m "Test CI/CD deployment"
 git push origin main
 ```
 
-### 6.2 Kiểm tra
+### 5.2 Kiểm tra
 1. **GitHub Actions**: Vào tab Actions để xem progress
-2. **Railway**: Kiểm tra backend deployment
-3. **Vercel**: Kiểm tra frontend deployment
+2. **Vercel**: Kiểm tra full-stack deployment
 
-## 🔍 Bước 7: Kiểm tra kết nối
+## 🔍 Bước 6: Kiểm tra kết nối
 
-### 7.1 Test Backend
+### 6.1 Test API
 ```bash
-curl https://your-backend-domain.railway.app/api/shoes
+curl https://your-domain.vercel.app/api/shoes
 ```
 
-### 7.2 Test Frontend
+### 6.2 Test Frontend
 - Truy cập Vercel domain
 - Kiểm tra giao diện
 - Test CRUD operations
@@ -166,16 +130,7 @@ curl https://your-backend-domain.railway.app/api/shoes
 
 ### Lỗi thường gặp
 
-#### 1. Railway Deployment Failed
-```bash
-# Kiểm tra logs
-railway logs
-
-# Kiểm tra environment variables
-railway variables
-```
-
-#### 2. Vercel Build Failed
+#### 1. Vercel Build Failed
 ```bash
 # Kiểm tra build logs
 vercel logs
@@ -185,11 +140,20 @@ cd frontend
 npm run build
 ```
 
+#### 2. API Routes Not Working
+```bash
+# Kiểm tra API endpoint
+curl https://your-domain.vercel.app/api/health
+
+# Kiểm tra logs
+vercel logs
+```
+
 #### 3. CORS Issues
 ```javascript
 // Cập nhật CORS trong app.js
 app.use(cors({
-  origin: ['https://your-frontend-domain.vercel.app'],
+  origin: ['https://your-domain.vercel.app'],
   credentials: true
 }));
 ```
@@ -197,14 +161,10 @@ app.use(cors({
 #### 4. Environment Variables
 - Kiểm tra tên biến môi trường
 - Đảm bảo không có khoảng trắng
-- Restart services sau khi thay đổi
+- Restart deployment sau khi thay đổi
 
 ### Debug Commands
 ```bash
-# Railway
-railway status
-railway logs --tail
-
 # Vercel
 vercel --prod
 vercel logs
@@ -216,17 +176,13 @@ cd frontend && npm start
 
 ## 📊 Monitoring
 
-### 1. Railway Dashboard
-- Monitor backend performance
-- View logs và metrics
-- Scale resources
-
-### 2. Vercel Dashboard
-- Monitor frontend performance
+### 1. Vercel Dashboard
+- Monitor full-stack performance
 - View analytics
 - Check build status
+- View logs và metrics
 
-### 3. GitHub Actions
+### 2. GitHub Actions
 - Monitor CI/CD pipeline
 - View build logs
 - Check deployment status
@@ -244,7 +200,7 @@ cd frontend && npm start
 ### Production Updates
 1. **Hotfix**: Push directly to main
 2. **Feature**: Use feature branches
-3. **Rollback**: Use Vercel/Railway rollback
+3. **Rollback**: Use Vercel rollback
 
 ## 📝 Best Practices
 
@@ -266,11 +222,11 @@ cd frontend && npm start
 ## 🎉 Kết quả
 
 Sau khi hoàn thành, bạn sẽ có:
-- ✅ Backend chạy trên Railway
-- ✅ Frontend chạy trên Vercel
+- ✅ Full-stack app chạy trên Vercel
 - ✅ CI/CD pipeline tự động
 - ✅ Database trên MongoDB Atlas
 - ✅ Monitoring và logging
+- ✅ Single domain cho cả frontend và backend
 
 ## 📞 Support
 
@@ -283,3 +239,13 @@ Nếu gặp vấn đề:
 ---
 
 **Lưu ý**: Thay thế các placeholder URLs bằng domain thực tế của bạn.
+
+## 🚀 Ưu điểm của Full-Stack Deployment
+
+### So với tách biệt (Railway + Vercel):
+- ✅ **Đơn giản hơn**: Chỉ 1 platform để quản lý
+- ✅ **Chi phí thấp hơn**: Không cần trả tiền cho 2 services
+- ✅ **Dễ debug**: Tất cả logs ở 1 nơi
+- ✅ **Performance tốt hơn**: Không có network latency giữa frontend và backend
+- ✅ **CORS đơn giản**: Không cần cấu hình CORS phức tạp
+- ✅ **Single domain**: Dễ quản lý SSL và domain
