@@ -27,10 +27,5 @@
     "MONGODB_URI": "@mongodb_uri",
     "NODE_ENV": "production",
     "REACT_APP_API_URL": "/api"
-  },
-  "functions": {
-    "app.js": {
-      "maxDuration": 30
-    }
   }
 }
