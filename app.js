@@ -47,7 +47,7 @@ if (process.env.NODE_ENV === 'production') {
 // Export for Vercel
 module.exports = app;
 
-// Start server for local development
+
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
