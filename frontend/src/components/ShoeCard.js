@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Edit, Trash2, ExternalLink } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
 
 const ShoeCard = ({ shoe, onDelete, formatPrice }) => {
   const handleDelete = (e) => {

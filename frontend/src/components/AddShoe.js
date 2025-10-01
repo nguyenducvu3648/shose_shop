@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Save, ArrowLeft, Upload } from 'lucide-react';
+import { Save, ArrowLeft } from 'lucide-react';
 import { shoeAPI } from '../services/api';
 
 const AddShoe = () => {

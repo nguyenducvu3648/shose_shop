@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Edit, Trash2, Plus, Search, Filter } from 'lucide-react';
@@ -13,15 +13,7 @@ const ShoeList = () => {
   const [sortBy, setSortBy] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
 
-  useEffect(() => {
-    fetchShoes();
-  }, []);
-
-  useEffect(() => {
-    filterAndSortShoes();
-  }, [shoes, searchTerm, sortBy, sortOrder]);
-
-  const fetchShoes = async () => {
+  const fetchShoes = useCallback(async () => {
     try {
       setLoading(true);
       const data = await shoeAPI.getAllShoes();
@@ -31,9 +23,9 @@ const ShoeList = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const filterAndSortShoes = () => {
+  const filterAndSortShoes = useCallback(() => {
     let filtered = shoes.filter(shoe =>
       shoe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       shoe.model.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -57,7 +49,15 @@ const ShoeList = () => {
     });
 
     setFilteredShoes(filtered);
-  };
+  }, [shoes, searchTerm, sortBy, sortOrder]);
+
+  useEffect(() => {
+    fetchShoes();
+  }, [fetchShoes]);
+
+  useEffect(() => {
+    filterAndSortShoes();
+  }, [filterAndSortShoes]);
 
   const handleDelete = async (model) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa giày này?')) {

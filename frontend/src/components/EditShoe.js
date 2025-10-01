@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Save, ArrowLeft, Trash2 } from 'lucide-react';
@@ -17,11 +17,7 @@ const EditShoe = () => {
     modelColor: ''
   });
 
-  useEffect(() => {
-    fetchShoe();
-  }, [model]);
-
-  const fetchShoe = async () => {
+  const fetchShoe = useCallback(async () => {
     try {
       setFetching(true);
       const shoe = await shoeAPI.getShoeByModel(model);
@@ -38,7 +34,11 @@ const EditShoe = () => {
     } finally {
       setFetching(false);
     }
-  };
+  }, [model, navigate]);
+
+  useEffect(() => {
+    fetchShoe();
+  }, [fetchShoe]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
