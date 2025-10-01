@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Edit, Trash2, Plus, Search, Filter } from 'lucide-react';
+import { Plus, Search, Filter } from 'lucide-react';
 import { shoeAPI } from '../services/api';
 import ShoeCard from './ShoeCard';
 
