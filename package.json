@@ -4,7 +4,12 @@
   "description": "Node.js project to manage tours with MySQL",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "seed": "node scripts/seedDatabase.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "build": "echo \"Backend build completed\"",
+    "lint": "eslint . --ext .js --ignore-path .gitignore"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -16,6 +21,10 @@
     "mongoose": "^8.8.3",
     "mysql2": "^3.2.0",
     "sequelize": "^6.31.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "nodemon": "^3.0.0"
   },
   "author": "ducvu",
   "license": "ISC"

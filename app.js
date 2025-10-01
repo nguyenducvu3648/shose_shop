@@ -20,6 +20,10 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
+// Route gốc
+app.get('/', (req, res) => {
+  res.send('Server đang chạy!');
+});
 
 // Sử dụng các routes
 app.use('/api/shoes', shoeRoutes);
