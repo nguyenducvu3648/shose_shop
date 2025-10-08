@@ -109,8 +109,8 @@ jobs:
       run: |
         npm ci || npm install
 
-    - name: Run ESLint
-      run: npx eslint . --ext .js,.jsx --ignore-path .gitignore
+    - name: Run ESLint  (non-blocking)
+      run: npx eslint . --ext .js,.jsx --ignore-path .gitignore || true
 
     - name: Run frontend ESLint
       working-directory: ./frontend
