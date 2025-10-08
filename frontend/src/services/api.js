@@ -26,7 +26,7 @@ export const shoeAPI = {
   // Get all shoes
   getAllShoes: async () => {
     try {
-      const response = await api.get('/shoes');
+      const response = await api.get('/');
       return response.data;
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Failed to fetch shoes');
