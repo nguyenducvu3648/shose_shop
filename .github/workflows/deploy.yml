@@ -35,7 +35,7 @@ jobs:
       working-directory: ./frontend
       run: npm run build
       env:
-        REACT_APP_API_URL: /api
+        REACT_APP_API_URL: 'https://shose-shop.onrender.com/api/shose'
 
     - name: Run tests
       run: npm test --if-present
